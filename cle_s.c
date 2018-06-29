@@ -15,20 +15,22 @@
 void		cle_s(t_s *s)
 {
 	s->number_of_ants = 0;
-	s->number_of_room = NULL;
+	s->number_of_room_start = NULL;
 	s->comment = 0;
 	s->two_hash = 0;
-	s->start = 0;
-	s->end = 0;
+	s->s = 0;
+	s->e = 0;
 	s->check_number = NULL;
 	s->i = 0;
 	s->check = 0;
-	s->spaces = 0;
-	s->start_x = NULL;
-	s->start_y = NULL;
+	s->spaces_start = 0;
+	s->spaces_end = 0;
+	s->start_x = 0;
+	s->start_y = 0;
 	s->number_of_room_end = NULL;
 	s->end_x = NULL;
 	s->end_y = NULL;
+	s->li = NULL;
 }
 
 void cle_m(t_s *s)

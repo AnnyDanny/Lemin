@@ -16,6 +16,33 @@
 
 int fd;
 
+void	ft_li_add(t_li **alst, t_li *new)
+{
+	if (alst != NULL && new != NULL)
+	{
+		new->next = *alst;
+		*alst = new;
+	}
+}
+
+t_li *li_new(char *number_of_room, int coord_x, int coord_y)
+{
+	t_li *data;
+
+	if (!(data = (t_li *)malloc(sizeof(t_li))))
+		return (NULL);
+	data->name = ft_strdup(number_of_room);
+	if (!data->name)
+	{
+		free(data);
+		return (NULL);
+	}
+	data->c_x = coord_x;
+	data->c_y = coord_y;
+	data->next = NULL;
+	return (data);
+}
+
 int check_two_hashes(char *buff)
 {
 	int i;
@@ -32,20 +59,9 @@ int check_two_hashes(char *buff)
 
 int check_comment(char *buff)
 {
-	int i;
-
-	i = 0;
-	while (buff[i])
+	if (buff[0] == '#')
 	{
-		if (buff[i] == '#' && buff[i + 1] != '#')
-		{
-			return (1);
-		}
-		else
-		{
-			return (0);
-		}
-		i++;
+		return (1);
 	}
 	return (0);
 } 
@@ -95,6 +111,8 @@ int check_right(t_s *s, char *buff)
 		if (check_digits_in_str(buff) == 1 && check_comment(buff) == 0)
 		{
 			s->number_of_ants = ft_atoi(buff);
+			if (s->number_of_ants < 0)
+				return (0);
 			printf("\nants>>>%d\n", s->number_of_ants);
 			return (1);
 		}
@@ -105,6 +123,15 @@ int check_right(t_s *s, char *buff)
 	return (0);
 }
 
+int check_start_end(char *buff)
+{
+	if (ft_strequ(buff, "##start") == 1)
+		return (1);
+	if (ft_strequ(buff, "##end") == 1)
+		return (2);
+	return (0);
+}
+
 int check_first(int fd, t_s *s, char *buff)
 {
 	int i;
@@ -112,15 +139,11 @@ int check_first(int fd, t_s *s, char *buff)
 	i = 0;
 	while (get_next_line(fd, &buff) > 0)
 	{
-		printf("\nbuff>>>%s\n", buff);
-		if (check_no_two_hashes(buff) == 1 || (s->number_of_ants == 0 && check_digits_in_str(buff) == 0 && check_comment(buff) == 0))
+		printf("\nbuff in first>>>%s\n", buff);
+		if (check_start_end(buff) != 0)
 		{
-			printf("\nERROR\n");
+			printf("\nERROR1\n");
 			return (1);
-		}
-		if (check_comment(buff) == 1)
-		{
-			printf("\ncom\n");
 		}
 		if (check_right(s, buff) == 1)
 		{
@@ -130,73 +153,47 @@ int check_first(int fd, t_s *s, char *buff)
 	return (0);
 }
 
-int check_start_end(char *buff)
-{
-	int i;
-
-	i = 0;
-	while (buff[i])
-	{
-		if (buff[i] == '#' && buff[i + 1] == '#' && buff[i + 2] == 's')
-			return (1);
-		if (buff[i] == '#' && buff[i + 1] == '#' && buff[i + 2] == 'e')
-			return (2);
-		i++;
-	}
-	return (0);
-}
-
-int check_count_spaces_start(t_s *s, char *buff)
-{
-	int i;
-
-	i = 0;
-	printf("\niiii1\n");
-	printf("\nbuff in space>>>%s\n", buff);
-	while (buff[i])
-	{
-		if (buff[i] == ' ')
-		{
-			// printf("\niiiii2\n");
-			s->spaces++;
-			printf("\nbiff[i]>>>%c\n", buff[i]);
-		}
-		i++;
-	}
-	// printf("\nspace>>>%d\n", s->spaces);
-	if (s->spaces == 2)
-		return (1);
-	return (0);
-}
-
 int check_second(int fd, t_s *s, char *buff)
 {
-	while(get_next_line(fd, &buff) > 0)
+	while (get_next_line(fd, &buff) > 0)
 	{
-		printf("\nbuff>>>%s\n", buff);
+		printf("\nbuff in second>>>%s\n", buff);
 		if (check_start_end(buff) == 1)
 		{
-			s->start++;
+			s->s++;
 			if (get_start_coord(s, fd, buff) == 0)
 			{
-				printf("\nERROR\n");
+				printf("\nERROR3\n");
 				return (1);
 			}
-			printf("\nstart>>>%d\n", s->start);
 		}
 		if (check_start_end(buff) == 2)
 		{
-			s->end++;
+			s->e++;
 			if (get_end_coord(s, fd, buff) == 0)
 			{
-				printf("\nERROR\n");
+				printf("\nERROR4\n");
 				return (1);
 			}
-			printf("\nend>>>%d\n", s->end);
 		}
 	}
 	return (0);
 }
+
+// int check_third(int fd, char *buff)
+// {
+// 	while (get_next_line(fd, &buff) > 0)
+// 	{
+// 		if (check_comment(buff) == 1)
+// 			return (1);
+// 		else
+// 		{
+// 			printf("\nERROR\n");
+// 			return (0);
+// 		}
+// 	}
+// 	return (0);
+// }
 
 int main(void)
 {
@@ -207,10 +204,18 @@ int main(void)
 	i = 0;
 	buff = NULL;
 	cle_s(&s);
+	// cle_m(&s);
 	fd = open("tat", O_RDWR | O_APPEND);
 	if (check_first(fd, &s, buff) == 1)
 		return (0);
 	if (check_second(fd, &s, buff) == 1)
 		return (0);
+	// printf("\nokokoko1\n");
+	ft_strdel(&buff);
+	// if (check_third(fd, buff) == 1)
+	// {
+	// 	printf("\nokokoko2\n");
+	// 	return (0);
+	// }
 }
 

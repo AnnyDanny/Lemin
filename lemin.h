@@ -22,24 +22,35 @@ void	ft_bzero(void *s, size_t n);
 
 int				get_next_line(const int fd, char **line);
 
+typedef struct 		s_li
+{
+	char 			*name;
+	int 			c_x;
+	int 			c_y;
+	struct 	s_li 	*next;
+}					t_li;	
+
 typedef struct	s_s
 {
 	int number_of_ants;
 	char *number_of_room_start;
 	int comment;
 	int two_hash;
-	int start;
-	int end;
+	int s;
+	int e;
 	char *check_number;
 	int i;
 	int check;
-	int spaces;
-	char *start_x;
-	char *start_y;
+	int spaces_start;
+	int spaces_end;
+	int start_x;
+	int start_y;
 	char **m;
 	char *number_of_room_end;
 	char *end_x;
 	char *end_y;
+	t_li *li;
+	t_li *start;
 }				t_s;
 
 void		cle_s(t_s *s);
@@ -54,6 +65,9 @@ int check_digits_in_str(char *buff);
 int check_count_spaces_start(t_s *s, char *buff);
 int check_count_spaces_end(t_s *s, char *buff);
 int get_end_coord(t_s *s, int fd, char *buff);
+t_li *li_new(char *number_of_room, int coord_x, int coord_y);
+void	ft_li_add(t_li **alst, t_li *new);
+int check_comment(char *buff);
 
 #endif
 

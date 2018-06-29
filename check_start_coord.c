@@ -38,7 +38,9 @@ int check_valid_start_room(t_s *s)
 	if ((ft_isdigit(s->m[0][i]) == 1 && s->m[0] != NULL && check_first_pos_room(s->m[0][0]) == 1) ||
 		(ft_isalpha(s->m[0][i]) == 1 && s->m[0] != NULL && check_first_pos_room(s->m[0][0]) == 1))
 	{
-		s->number_of_room_start = s->m[0];
+		// s->number_of_room_start = s->m[0];
+		// s->buff1 = s->m[0];
+		// printf("\nbuff1>>>%s\n", s->buff1);
 		return (1);
 	}
 	else
@@ -50,7 +52,8 @@ int check_valid_start_x(t_s *s)
 {
 	if (check_digits_in_str(s->m[1]) == 1 && s->m[1] != NULL)
 	{
-		s->start_x = s->m[1];
+		s->start_x = ft_atoi(s->m[1]);
+		// s->start_x = s->m[1];
 		return (1);
 	}
 	else
@@ -62,7 +65,7 @@ int check_valid_start_y(t_s *s)
 {
 	if (check_digits_in_str(s->m[2]) == 1 && s->m[2] != NULL)
 	{
-		s->start_y = s->m[2];
+		s->start_y = ft_atoi(s->m[2]);
 		return (1);
 	}
 	else
@@ -72,12 +75,42 @@ int check_valid_start_y(t_s *s)
 
 int check_digits_coord(t_s *s)
 {
+	t_li *li2;
+
 	if (check_valid_start_room(s) == 1 && check_valid_start_x(s) == 1 && check_valid_start_y(s) == 1)
 	{
+		ft_li_add(&s->li, li_new(s->m[0], s->start_x, s->start_y));
+		li2 = s->li;
+		s->start = s->li;
+		while (li2)
+		{
+			printf("\n>>>%s\n", li2->name);
+			printf("\n>>>%d\n", li2->c_x);
+			printf("\n>>>%d\n", li2->c_y);
+			li2 = li2->next;
+		}
 		return (1);
 	}
 	else
 		return (0);
+	return (0);
+}
+
+int check_count_spaces_start(t_s *s, char *buff)
+{
+	int i;
+
+	i = 0;
+	while (buff[i])
+	{
+		if (buff[i] == ' ')
+		{
+			s->spaces_start++;
+		}
+		i++;
+	}
+	if (s->spaces_start == 2)
+		return (1);
 	return (0);
 }
 
@@ -88,113 +121,24 @@ int get_start_coord(t_s *s, int fd, char *buff)
 
 	i = 0;
 	j = 0;
-	cle_m(s);
 	get_next_line(fd, &buff);
 	while (buff[i])
 	{
-		if (check_count_spaces_start(s, buff) == 1)
+		if (check_count_spaces_start(s, buff) == 1 && check_comment(buff) == 0)
 		{
 			s->m = ft_strsplit(buff, ' ');
 			if (check_digits_coord(s) == 1)
 			{
-				printf("\nroom>>>%s\n", s->number_of_room_start);
-				printf("\nx>>>%s\n", s->start_x);
-				printf("\ny>>>%s\n", s->start_y);
+				// printf("\nroom_start>>>%s\n", s->number_of_room_start);
+				// printf("\nx_start>>>%s\n", s->start_x);
+				// printf("\ny_start>>>%s\n", s->start_y);
 				return (1);
 			}
 			else
 				return (0);
-			printf("\nbuff in get>>%s\n", buff);
+			printf("\nbuff in get_start>>%s\n", buff);
 		}
 		i++;
 	}
 	return (0);
 }
-
-int check_count_spaces_end(t_s *s, char *buff)
-{
-	int i;
-
-	i = 0;
-	printf("\niiii1\n");
-	printf("\nbuff in space>>>%s\n", buff);
-	while (buff[i])
-	{
-		if (buff[i] == ' ')
-		{
-			// printf("\niiiii2\n");
-			s->spaces++;
-			printf("\nbiff[i]>>>%c\n", buff[i]);
-		}
-		i++;
-	}
-	// printf("\nspace>>>%d\n", s->spaces);
-	if (s->spaces == 2)
-		return (1);
-	return (0);
-}
-
-// int get_end_coord(t_s *s, int fd, char *buff)
-// {
-// 	int i;
-// 	int j;
-
-// 	i = 0;
-// 	j = 0;
-// 	cle_m(s);
-// 	ft_strdel(&buff);
-// 	get_next_line(fd, &buff);
-// 	// printf("\nbuff in end>>>%s\n", buff);
-// 	while (buff[i])
-// 	{
-// 		// printf("\nlklklk1\n");
-// 		if (check_count_spaces_end(s, buff) == 1)
-// 		{
-// 			// printf("\nlklklk2\n");
-// 			s->m = ft_strsplit(buff, ' ');
-// 			if (check_digits_coord(s) == 1)
-// 			{
-// 				printf("\nroom>>>%s\n", s->number_of_room);
-// 				printf("\nx>>>%s\n", s->start_x);
-// 				printf("\ny>>>%s\n", s->start_y);
-// 				return (1);
-// 			}
-// 			else
-// 				return (0);
-// 			printf("\nbuff in get>>%s\n", buff);
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-int get_end_coord(t_s *s, int fd, char *buff)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	cle_m(s);
-	get_next_line(fd, &buff);
-	while (buff[i])
-	{
-		if (check_count_spaces_end(s, buff) == 1)
-		{
-			s->m = ft_strsplit(buff, ' ');
-			if (check_digits_coord(s) == 1)
-			{
-				printf("\nroom>>>%s\n", s->number_of_room_end);
-				printf("\nx>>>%s\n", s->end_x);
-				printf("\ny>>>%s\n", s->end_y);
-				return (1);
-			}
-			else
-				return (0);
-			printf("\nbuff in get>>%s\n", buff);
-		}
-		i++;
-	}
-	return (0);
-}
-

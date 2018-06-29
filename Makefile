@@ -1,7 +1,8 @@
 
 NAME = lem-in
 # HEADER = -c -I ./includes/
-SRC = lem_in.c cle_s.c check_start_coord.c
+SRC = lem_in.c cle_s.c check_start_coord.c check_end_coord.c \
+
 FLAGS = -Wall -Wextra -Werror
 OBJ = $(SRC:.c=.o)
 
