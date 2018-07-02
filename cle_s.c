@@ -28,9 +28,11 @@ void		cle_s(t_s *s)
 	s->start_x = 0;
 	s->start_y = 0;
 	s->number_of_room_end = NULL;
-	s->end_x = NULL;
-	s->end_y = NULL;
+	s->end_x = 0;
+	s->end_y = 0;
 	s->li = NULL;
+	s->li_start = NULL;
+	s->li_end = NULL;
 }
 
 void cle_m(t_s *s)

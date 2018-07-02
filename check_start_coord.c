@@ -75,19 +75,19 @@ int check_valid_start_y(t_s *s)
 
 int check_digits_coord(t_s *s)
 {
-	t_li *li2;
+	t_li *li1;
 
 	if (check_valid_start_room(s) == 1 && check_valid_start_x(s) == 1 && check_valid_start_y(s) == 1)
 	{
 		ft_li_add(&s->li, li_new(s->m[0], s->start_x, s->start_y));
-		li2 = s->li;
-		s->start = s->li;
-		while (li2)
+		li1 = s->li;
+		s->li_start = s->li;
+		while (li1)
 		{
-			printf("\n>>>%s\n", li2->name);
-			printf("\n>>>%d\n", li2->c_x);
-			printf("\n>>>%d\n", li2->c_y);
-			li2 = li2->next;
+			printf("\nname of start room>>>%s\n", li1->name);
+			printf("\nx of start room>>>%d\n", li1->c_x);
+			printf("\ny of start room>>>%d\n", li1->c_y);
+			li1 = li1->next;
 		}
 		return (1);
 	}

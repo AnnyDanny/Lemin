@@ -39,7 +39,7 @@ int check_valid_end_room(t_s *s)
 	if ((ft_isdigit(s->m[0][i]) == 1 && s->m[0] != NULL && check_first_pos_room_end(s->m[0][0]) == 1) ||
 		(ft_isalpha(s->m[0][i]) == 1 && s->m[0] != NULL && check_first_pos_room_end(s->m[0][0]) == 1))
 	{
-		s->number_of_room_end = s->m[0];
+		// s->number_of_room_end = s->m[0];
 		return (1);
 	}
 	else
@@ -51,7 +51,7 @@ int check_valid_end_x(t_s *s)
 {
 	if (check_digits_in_str(s->m[1]) == 1 && s->m[1] != NULL)
 	{
-		s->end_x = s->m[1];
+		s->end_x = ft_atoi(s->m[1]);
 		return (1);
 	}
 	else
@@ -63,7 +63,7 @@ int check_valid_end_y(t_s *s)
 {
 	if (check_digits_in_str(s->m[2]) == 1 && s->m[2] != NULL)
 	{
-		s->end_y = s->m[2];
+		s->end_y = ft_atoi(s->m[2]);
 		return (1);
 	}
 	else
@@ -73,8 +73,15 @@ int check_valid_end_y(t_s *s)
 
 int check_digits_coord_end(t_s *s)
 {
+	// t_li *li_end;
+
 	if (check_valid_end_room(s) == 1 && check_valid_end_x(s) == 1 && check_valid_end_y(s) == 1)
+	{
+		// ft_li_add(&s->li, li_new(s->m[0], s->end_x, s->end_y));
+		// li_end = s->li
+
 		return (1);
+	}
 	else
 		return (0);
 	return (0);

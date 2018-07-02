@@ -47,10 +47,11 @@ typedef struct	s_s
 	int start_y;
 	char **m;
 	char *number_of_room_end;
-	char *end_x;
-	char *end_y;
+	int end_x;
+	int end_y;
 	t_li *li;
-	t_li *start;
+	t_li *li_start;
+	t_li *li_end;
 }				t_s;
 
 void		cle_s(t_s *s);
