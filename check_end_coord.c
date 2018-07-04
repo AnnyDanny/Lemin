@@ -73,13 +73,20 @@ int check_valid_end_y(t_s *s)
 
 int check_digits_coord_end(t_s *s)
 {
-	// t_li *li_end;
+	t_li *li2;
 
 	if (check_valid_end_room(s) == 1 && check_valid_end_x(s) == 1 && check_valid_end_y(s) == 1)
 	{
-		// ft_li_add(&s->li, li_new(s->m[0], s->end_x, s->end_y));
-		// li_end = s->li
-
+		ft_li_add(&s->li, li_new(s->m[0], s->end_x, s->end_y));
+		li2 = s->li;
+		s->li_end = s->li;
+		// while (li2)
+		// {
+			printf("\nname of end room>>>%s\n", li2->name);
+			printf("\nx of end room>>>%d\n", li2->c_x);
+			printf("\ny of end room>>>%d\n", li2->c_y);
+			// li2 = li2->next;
+		// }
 		return (1);
 	}
 	else
@@ -121,13 +128,12 @@ int get_end_coord(t_s *s, int fd, char *buff)
 			if (check_digits_coord_end(s) == 1)
 			{
 				// printf("\nroom_end>>>%s\n", s->number_of_room_end);
-				// printf("\nx_end>>>%s\n", s->end_x);
-				// printf("\ny_end>>>%s\n", s->end_y);
+				// printf("\nx_end>>>%d\n", s->end_x);
+				// printf("\ny_end>>>%d\n", s->end_y);
 				return (1);
 			}
 			else
 				return (0);
-			printf("\nbuff in get_end>>%s\n", buff);
 		}
 		i++;
 	}

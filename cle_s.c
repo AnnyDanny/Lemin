@@ -25,14 +25,18 @@ void		cle_s(t_s *s)
 	s->check = 0;
 	s->spaces_start = 0;
 	s->spaces_end = 0;
+	s->spaces_other = 0;
 	s->start_x = 0;
 	s->start_y = 0;
 	s->number_of_room_end = NULL;
 	s->end_x = 0;
 	s->end_y = 0;
+	s->other_x = 0;
+	s->other_y = 0;
 	s->li = NULL;
 	s->li_start = NULL;
 	s->li_end = NULL;
+	s->head = NULL;
 }
 
 void cle_m(t_s *s)

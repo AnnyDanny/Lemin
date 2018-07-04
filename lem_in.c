@@ -18,8 +18,10 @@ int fd;
 
 void	ft_li_add(t_li **alst, t_li *new)
 {
+	// printf("\nokokokaddd\n");
 	if (alst != NULL && new != NULL)
 	{
+		// printf("\nadddd\n");
 		new->next = *alst;
 		*alst = new;
 	}
@@ -27,6 +29,7 @@ void	ft_li_add(t_li **alst, t_li *new)
 
 t_li *li_new(char *number_of_room, int coord_x, int coord_y)
 {
+	// printf("\nokokonew\n");
 	t_li *data;
 
 	if (!(data = (t_li *)malloc(sizeof(t_li))))
@@ -139,7 +142,7 @@ int check_first(int fd, t_s *s, char *buff)
 	i = 0;
 	while (get_next_line(fd, &buff) > 0)
 	{
-		printf("\nbuff in first>>>%s\n", buff);
+		// printf("\nbuff in first>>>%s\n", buff);
 		if (check_start_end(buff) != 0)
 		{
 			printf("\nERROR1\n");
@@ -155,27 +158,54 @@ int check_first(int fd, t_s *s, char *buff)
 
 int check_second(int fd, t_s *s, char *buff)
 {
+	// t_li *head;
+
+	// head = NULL;
 	while (get_next_line(fd, &buff) > 0)
 	{
-		printf("\nbuff in second>>>%s\n", buff);
-		if (check_start_end(buff) == 1)
+		if (check_other_coords(s, buff) == 0)
 		{
-			s->s++;
-			if (get_start_coord(s, fd, buff) == 0)
+			if (check_start_end(buff) == 1)
 			{
-				printf("\nERROR3\n");
-				return (1);
+				if (get_start_coord(s, fd, buff) == 0)
+				{
+					printf("\nERROR3\n");
+					return (1);
+				}
+				else 
+					s->s++;
+			}
+			else if (check_start_end(buff) == 2)
+			{
+				if (get_end_coord(s, fd, buff) == 0)
+				{
+					printf("\nERROR4\n");
+					return (1);
+				}
+				else
+					s->e++;
 			}
 		}
-		if (check_start_end(buff) == 2)
-		{
-			s->e++;
-			if (get_end_coord(s, fd, buff) == 0)
-			{
-				printf("\nERROR4\n");
-				return (1);
-			}
-		}
+
+		 // (check_other_coords(s, buff) == 0)
+		// else
+		// {
+		// 	if (check_other_coords(s, buff) == 0)
+		// 	{
+		// 		printf("\nERROR5\n");
+		// 		return (1);
+		// 	}
+		// }
+	}
+	t_li *head1;
+	head1 = s->head;
+	while (head1 != NULL)
+	{
+		printf("\nname of other room>>>%s\n", head1->name);
+		printf("\nx of other>>>%d\n", head1->c_x);
+		printf("\ny of other>>>%d\n", head1->c_y);
+		head1 = head1->next;
+
 	}
 	return (0);
 }
@@ -210,6 +240,7 @@ int main(void)
 		return (0);
 	if (check_second(fd, &s, buff) == 1)
 		return (0);
+
 	// printf("\nokokoko1\n");
 	ft_strdel(&buff);
 	// if (check_third(fd, buff) == 1)

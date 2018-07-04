@@ -82,13 +82,13 @@ int check_digits_coord(t_s *s)
 		ft_li_add(&s->li, li_new(s->m[0], s->start_x, s->start_y));
 		li1 = s->li;
 		s->li_start = s->li;
-		while (li1)
-		{
+		// while (li1)
+		// {
 			printf("\nname of start room>>>%s\n", li1->name);
 			printf("\nx of start room>>>%d\n", li1->c_x);
 			printf("\ny of start room>>>%d\n", li1->c_y);
 			li1 = li1->next;
-		}
+		// }
 		return (1);
 	}
 	else

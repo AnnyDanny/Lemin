@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+// #include <stdio.h>
 
 static int		ft_count(char const *arr, char c)
 {
@@ -72,6 +73,7 @@ static char		**ft_copy(const char *s, char **m, char c)
 
 char			**ft_strsplit(char const *s, char c)
 {
+	// printf("\n count split>>>\n");
 	char	**m;
 
 	if (!s)

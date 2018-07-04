@@ -43,15 +43,20 @@ typedef struct	s_s
 	int check;
 	int spaces_start;
 	int spaces_end;
+	int spaces_other;
 	int start_x;
 	int start_y;
 	char **m;
 	char *number_of_room_end;
 	int end_x;
 	int end_y;
+	int other_x;
+	int other_y;
 	t_li *li;
 	t_li *li_start;
 	t_li *li_end;
+	t_li *li_other;
+	t_li *head;
 }				t_s;
 
 void		cle_s(t_s *s);
@@ -69,6 +74,9 @@ int get_end_coord(t_s *s, int fd, char *buff);
 t_li *li_new(char *number_of_room, int coord_x, int coord_y);
 void	ft_li_add(t_li **alst, t_li *new);
 int check_comment(char *buff);
+int check_first_pos_room(char c);
+int check_other_coords(t_s *s, char *buff);
+int check_two_hashes(char *buff);
 
 #endif
 
