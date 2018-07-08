@@ -27,6 +27,7 @@ typedef struct 		s_li
 	char 			*name;
 	int 			c_x;
 	int 			c_y;
+	t_list			*connect;
 	struct 	s_li 	*next;
 }					t_li;	
 
@@ -44,14 +45,19 @@ typedef struct	s_s
 	int spaces_start;
 	int spaces_end;
 	int spaces_other;
+	int dash;
 	int start_x;
 	int start_y;
 	char **m;
+	char **m_connect;
 	char *number_of_room_end;
 	int end_x;
 	int end_y;
 	int other_x;
 	int other_y;
+	// t_li *fi;
+	// t_li *se;
+	t_list *connect;
 	t_li *li;
 	t_li *li_start;
 	t_li *li_end;
@@ -60,6 +66,7 @@ typedef struct	s_s
 }				t_s;
 
 void		cle_s(t_s *s);
+void cle_m_dash(t_s *s);
 void cle_m(t_s *s);
 int get_start_coord(t_s *s, int fd, char *buff);
 int check_digits_coord(t_s *s);
@@ -77,6 +84,8 @@ int check_comment(char *buff);
 int check_first_pos_room(char c);
 int check_other_coords(t_s *s, char *buff);
 int check_two_hashes(char *buff);
+int check_connect(t_s *s, char *buff);
+void error_exit(char const *str);
 
 #endif
 

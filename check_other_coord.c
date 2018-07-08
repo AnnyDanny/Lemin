@@ -57,68 +57,61 @@ int check_valid_other_y(t_s *s)
 int check_digits_coord_other(t_s *s)
 {
 	t_li *li3;
-	// t_li *head2;
-
-	// t_li *head;
-	// printf("\nokokokokokkoko\n");
-	// li3 = s->li;
-	// while (s->li)
-	// {
-		// printf("\nname of other room>>>%s\n", li3->name);
-		// printf("\nx of other>>>%d\n", li3->c_x);
-		// printf("\ny of other>>>%d\n", li3->c_y);
-	// 	s->li_other = s->li_other->next;
-	// }
 
 	if (check_valid_other_room(s) == 1 && check_valid_other_x(s) == 1 && check_valid_other_y(s) == 1)
 	{
-		// printf("\n nameeeee>>>>%s\n", s->m[0]);
-		// printf("\n otherxxxxxx>>>>%d\n", s->other_x);
-		// printf("\n otheryyyyy>>>>%d\n", s->other_y);
-		// printf("\nokok333\n");
-		if (s->head == NULL)
+		// if (s->head == NULL)
+		// {
+		// 	s->head = li_new(s->m[0], s->other_x, s->other_y);
+		// }
+		// else
 		{
-			// printf("\nokokok111\n");
-			s->head = li_new(s->m[0], s->other_x, s->other_y);
-			// printf("\nokokok444\n");
+			ft_li_add(&(s->li), li_new(s->m[0], s->other_x, s->other_y));
 		}
-		else
-		{
-
-			ft_li_add(&(s->head), li_new(s->m[0], s->other_x, s->other_y));
-			// printf("\nokokok222\n");
-		}
-		// head = li_new(s->m[0], s->other_x, s->other_y);
-		// ft_li_add(&head, li_new(s->m[0], s->other_x, s->other_y));
-		li3 = s->head;
-		// s->li_other = s->li;
-		// s->li_other = s->li;
-		// while (s->li_other)
-		// {
-			// printf("\nname of other room>>>%s\n", li3->name);
-			// printf("\nx of other>>>%d\n", li3->c_x);
-			// printf("\ny of other>>>%d\n", li3->c_y);
-		// 	s->li_other = s->li_other->next;
-		// }
-		// while (s->li)
-		// {
-		// 	ft_li_add(&s->li, li_new(s->m[0], s->other_x, s->other_y));
-		// 	s->li = s->li->next;
-		// }
-		// li3 = s->li;
-		// s->li_other = s->li;
-		// while (s->li_other)
-		// {
-		// 	printf("\nname of other room>>>%s\n", s->li_other->name);
-		// 	printf("\nx of other>>>%d\n", s->li_other->c_x);
-		// 	printf("\ny of other>>>%d\n", s->li_other->c_y);
-		// 	s->li_other = s->li_other->next;
-		// }
+		li3 = s->li;
 		return (1);
 	}
 	else
 		return (0);
 	return (0);
+}
+
+t_li *find_room_if_exist(t_s *s, char *str)
+{
+	t_li *tmp;
+
+	tmp = s->li;
+	while (tmp)
+	{
+		if (ft_strequ(str, tmp->name) == 1)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+void check_equal_elem(t_s *s)
+{
+	t_li *first;
+	t_li *second;
+	t_list *buff;
+
+	first = find_room_if_exist(s, s->m_connect[0]);
+	if (first == NULL)
+	{
+		error_exit("first connect");
+	}
+	second = find_room_if_exist(s, s->m_connect[1]);
+	if (second == NULL)
+	{
+		error_exit("second connect");
+	}
+	buff = ft_lstnew(NULL, 0);
+	buff->content = (void*)second;
+	ft_lstadd(&first->connect, buff);
+	buff = ft_lstnew(NULL, 0);
+	buff->content = (void*)first;
+	ft_lstadd(&second->connect, buff);
 }
 
 int check_count_spaces_other(t_s *s, char *buff)
@@ -135,37 +128,56 @@ int check_count_spaces_other(t_s *s, char *buff)
 		}
 		i++;
 	}
-	// printf("\ncount spaces in other>>>%d\n", s->spaces_other);
 	if (s->spaces_other == 2)
-	{
-		// printf("\n ok count spaces\n");
 		return (1);
-	}
 	return (0);
 }
 
 int check_other_coords(t_s *s, char *buff)
 {
-	// printf("\nokokok1\n");
-	// printf("\nbuff in other>>>%s\n", buff);
-	// if (check_two_hashes(buff) == 0)
-	// {
 		if (check_count_spaces_other(s, buff) == 1 && check_comment(buff) == 0)
 		{
-		// printf("\nokokok2\n");
 			s->m = ft_strsplit(buff, ' ');
-			// printf("\nmmmmmm>>>%s\n", s->m[0]);
 			if (check_digits_coord_other(s) == 1)
-			{
-			// printf("\nokokok3\n");
 				return (1);
-			}
 			else
-			{
-			// printf("\nokokok4\n");
 				return (0);
-			}
 		}
-	// }
+	return (0);
+}
+
+int check_count_dash(t_s *s, char *buff)
+{
+	int i;
+
+	i = 0;
+	s->dash = 0;
+	while (buff[i])
+	{
+		if (buff[i] == '-')
+		{
+			s->dash++;
+		}
+		i++;
+	}
+	if (s->dash == 1)
+		return (1);
+	return (0);
+}
+
+int check_connect(t_s *s, char *buff)
+{
+	if (check_count_dash(s, buff) == 1 && check_comment(buff) == 0)
+	{
+		s->m_connect = ft_strsplit(buff, '-');
+		if (s->m_connect[0] != NULL && s->m_connect[1] != NULL)
+			check_equal_elem(s);
+		else
+			error_exit("null in m_connect");
+	}
+	else
+	{
+		return (0);
+	}
 	return (0);
 }

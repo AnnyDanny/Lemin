@@ -26,6 +26,7 @@ void		cle_s(t_s *s)
 	s->spaces_start = 0;
 	s->spaces_end = 0;
 	s->spaces_other = 0;
+	s->dash = 0;
 	s->start_x = 0;
 	s->start_y = 0;
 	s->number_of_room_end = NULL;
@@ -37,6 +38,9 @@ void		cle_s(t_s *s)
 	s->li_start = NULL;
 	s->li_end = NULL;
 	s->head = NULL;
+	s->connect = NULL;
+	// s->fi = NULL;
+	// s->se = NULL;
 }
 
 void cle_m(t_s *s)
@@ -52,3 +56,15 @@ void cle_m(t_s *s)
 		i++;
 	}
 }
+
+// void cle_m_dash(t_s *s)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (s->m_connect[i])
+// 	{
+// 		s->m_connect[i] == NULL;
+// 		i++;
+// 	}
+// }

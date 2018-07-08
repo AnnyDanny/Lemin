@@ -16,12 +16,16 @@
 
 int fd;
 
+void error_exit(char const *str)
+{
+	printf("\nerror>>>%s\n", str);
+	exit(0);
+}
+
 void	ft_li_add(t_li **alst, t_li *new)
 {
-	// printf("\nokokokaddd\n");
 	if (alst != NULL && new != NULL)
 	{
-		// printf("\nadddd\n");
 		new->next = *alst;
 		*alst = new;
 	}
@@ -43,6 +47,7 @@ t_li *li_new(char *number_of_room, int coord_x, int coord_y)
 	data->c_x = coord_x;
 	data->c_y = coord_y;
 	data->next = NULL;
+	data->connect = NULL;
 	return (data);
 }
 
@@ -67,7 +72,7 @@ int check_comment(char *buff)
 		return (1);
 	}
 	return (0);
-} 
+}
 
 int check_no_two_hashes(char *buff)
 {
@@ -156,74 +161,62 @@ int check_first(int fd, t_s *s, char *buff)
 	return (0);
 }
 
-int check_second(int fd, t_s *s, char *buff)
+void print_list(t_s *s)
 {
-	// t_li *head;
-
-	// head = NULL;
-	while (get_next_line(fd, &buff) > 0)
-	{
-		if (check_other_coords(s, buff) == 0)
-		{
-			if (check_start_end(buff) == 1)
-			{
-				if (get_start_coord(s, fd, buff) == 0)
-				{
-					printf("\nERROR3\n");
-					return (1);
-				}
-				else 
-					s->s++;
-			}
-			else if (check_start_end(buff) == 2)
-			{
-				if (get_end_coord(s, fd, buff) == 0)
-				{
-					printf("\nERROR4\n");
-					return (1);
-				}
-				else
-					s->e++;
-			}
-		}
-
-		 // (check_other_coords(s, buff) == 0)
-		// else
-		// {
-		// 	if (check_other_coords(s, buff) == 0)
-		// 	{
-		// 		printf("\nERROR5\n");
-		// 		return (1);
-		// 	}
-		// }
-	}
 	t_li *head1;
-	head1 = s->head;
+
+	head1 = s->li;
 	while (head1 != NULL)
 	{
 		printf("\nname of other room>>>%s\n", head1->name);
 		printf("\nx of other>>>%d\n", head1->c_x);
 		printf("\ny of other>>>%d\n", head1->c_y);
+		t_list *con1;
+		con1 = head1->connect;
+		while (con1)
+		{
+			printf("\nconnect>>>%s\n", ((t_li*)con1->content)->name);
+			con1 = con1->next;
+		}
 		head1 = head1->next;
-
 	}
-	return (0);
 }
 
-// int check_third(int fd, char *buff)
-// {
-// 	while (get_next_line(fd, &buff) > 0)
-// 	{
-// 		if (check_comment(buff) == 1)
-// 			return (1);
-// 		else
-// 		{
-// 			printf("\nERROR\n");
-// 			return (0);
-// 		}
-// 	}
-// 	return (0);
-// }
+int check_second(int fd, t_s *s, char *buff)
+{
+	while (get_next_line(fd, &buff) > 0)
+	{
+		if (check_other_coords(s, buff) == 0)
+		{
+			if (check_connect(s, buff) == 0)
+			{
+				if (check_start_end(buff) == 1)
+				{
+					if (get_start_coord(s, fd, buff) == 0)
+					{
+						printf("\nERROR3\n");
+						return (1);
+					}
+					else 
+						s->s++;
+				}
+				else if (check_start_end(buff) == 2)
+				{
+					if (get_end_coord(s, fd, buff) == 0)
+					{
+						printf("\nERROR4\n");
+						return (1);
+					}
+					else
+						s->e++;
+				}
+			}
+		}
+		printf("\nbuff in second>>>%s\n", buff);
+	}
+	print_list(s);
+	return (0);
+}
 
 int main(void)
 {
@@ -235,18 +228,12 @@ int main(void)
 	buff = NULL;
 	cle_s(&s);
 	// cle_m(&s);
+	// cle_m_dash(&s);
 	fd = open("tat", O_RDWR | O_APPEND);
 	if (check_first(fd, &s, buff) == 1)
 		return (0);
 	if (check_second(fd, &s, buff) == 1)
 		return (0);
-
-	// printf("\nokokoko1\n");
 	ft_strdel(&buff);
-	// if (check_third(fd, buff) == 1)
-	// {
-	// 	printf("\nokokoko2\n");
-	// 	return (0);
-	// }
 }
 

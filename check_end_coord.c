@@ -80,13 +80,6 @@ int check_digits_coord_end(t_s *s)
 		ft_li_add(&s->li, li_new(s->m[0], s->end_x, s->end_y));
 		li2 = s->li;
 		s->li_end = s->li;
-		// while (li2)
-		// {
-			printf("\nname of end room>>>%s\n", li2->name);
-			printf("\nx of end room>>>%d\n", li2->c_x);
-			printf("\ny of end room>>>%d\n", li2->c_y);
-			// li2 = li2->next;
-		// }
 		return (1);
 	}
 	else
