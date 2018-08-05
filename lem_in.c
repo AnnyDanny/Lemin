@@ -48,6 +48,7 @@ t_li *li_new(char *number_of_room, int coord_x, int coord_y)
 	data->c_y = coord_y;
 	data->next = NULL;
 	data->connect = NULL;
+	data->check = 0;
 	return (data);
 }
 
@@ -164,8 +165,10 @@ int check_first(int fd, t_s *s, char *buff)
 void print_list(t_s *s)
 {
 	t_li *head1;
+	t_li *head2;
 
 	head1 = s->li;
+	head2 = s->li_queue_head;
 	while (head1 != NULL)
 	{
 		printf("\nname of other room>>>%s\n", head1->name);
@@ -179,6 +182,57 @@ void print_list(t_s *s)
 			con1 = con1->next;
 		}
 		head1 = head1->next;
+	}
+	while (head2 != NULL)
+	{
+		printf("\nkjkjkjkjkjkkjkjkjkj\n");
+		// t_list *con3;
+		// con3 = head2->connect;
+		// while (con3)
+		// {
+		// 	printf("\nconnectttttttttt>>>%s\n", ((t_li*)con3->content)->name);
+		// 	con3 = con3->next;
+		// }
+		printf("\ncheckkkkkkkk>>>%d\n", head2->check);
+		head2 = head2->next;
+	}
+
+}
+
+void print_start_end(t_s *s)
+{
+	t_li *new_start;
+	t_li *new_end;
+
+	new_start = s->li_start;
+	while (new_start)
+	{
+		printf("\nli_start_name>>>%s\n", new_start->name);
+		printf("\nli_start_x>>>%d\n", new_start->c_x);
+		printf("\nli_start_y>>>%d\n", new_start->c_y);
+		t_list *new_con_start;
+		new_con_start = new_start->connect;
+		while (new_con_start)
+		{
+			printf("\nnew_con_start>>>%s\n", ((t_li*)new_con_start->content)->name);
+			new_con_start = new_con_start->next;
+		}
+		new_start = new_start->next;
+	}
+	new_end = s->li_end;
+	while (new_end)
+	{
+		printf("\nli_end_name>>>%s\n", new_end->name);
+		printf("\nli_end_x>>>%d\n", new_end->c_x);
+		printf("\nli_end_y>>>%d\n", new_end->c_y);
+		t_list *new_con_end;
+		new_con_end = new_end->connect;
+		while (new_con_end)
+		{
+			printf("\nnew_con_end>>>%s\n", ((t_li*)new_con_end->content)->name);
+			new_con_end = new_con_end->next;
+		}
+		new_end = new_end->next;
 	}
 }
 
@@ -214,7 +268,9 @@ int check_second(int fd, t_s *s, char *buff)
 		}
 		printf("\nbuff in second>>>%s\n", buff);
 	}
-	print_list(s);
+	try_add(s);
+	// print_list(s);
+	// print_start_end(s);
 	return (0);
 }
 

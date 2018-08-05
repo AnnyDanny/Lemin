@@ -28,6 +28,7 @@ typedef struct 		s_li
 	int 			c_x;
 	int 			c_y;
 	t_list			*connect;
+	int 			check;
 	struct 	s_li 	*next;
 }					t_li;	
 
@@ -55,10 +56,11 @@ typedef struct	s_s
 	int end_y;
 	int other_x;
 	int other_y;
-	// t_li *fi;
-	// t_li *se;
 	t_list *connect;
+	t_list *con2;
 	t_li *li;
+	t_li *li_queue_head;
+	t_li *li_queue_tail;
 	t_li *li_start;
 	t_li *li_end;
 	t_li *li_other;
@@ -86,6 +88,7 @@ int check_other_coords(t_s *s, char *buff);
 int check_two_hashes(char *buff);
 int check_connect(t_s *s, char *buff);
 void error_exit(char const *str);
+void try_add(t_s *s);
 
 #endif
 

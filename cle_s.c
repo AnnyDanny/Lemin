@@ -35,6 +35,8 @@ void		cle_s(t_s *s)
 	s->other_x = 0;
 	s->other_y = 0;
 	s->li = NULL;
+	s->li_queue_tail = NULL;
+	s->li_queue_head = NULL;
 	s->li_start = NULL;
 	s->li_end = NULL;
 	s->head = NULL;
