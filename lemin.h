@@ -65,6 +65,7 @@ typedef struct	s_s
 	t_li *li_end;
 	t_li *li_other;
 	t_li *head;
+	t_list *shortest;
 }				t_s;
 
 void		cle_s(t_s *s);
@@ -88,7 +89,8 @@ int check_other_coords(t_s *s, char *buff);
 int check_two_hashes(char *buff);
 int check_connect(t_s *s, char *buff);
 void error_exit(char const *str);
-void try_add(t_s *s);
+void create_queue(t_s *s);
+void find_best_way(t_s *s);
 
 #endif
 

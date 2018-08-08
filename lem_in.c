@@ -268,7 +268,11 @@ int check_second(int fd, t_s *s, char *buff)
 		}
 		printf("\nbuff in second>>>%s\n", buff);
 	}
-	try_add(s);
+	t_list *find;
+
+	find = s->li_start->connect;
+	create_queue(s, find);
+	find_best_way(s);
 	// print_list(s);
 	// print_start_end(s);
 	return (0);

@@ -167,7 +167,29 @@ int check_count_dash(t_s *s, char *buff)
 	return (0);
 }
 
-void try_add(t_s *s)
+void from_end(t_s *s)
+{
+	t_list *find_end;
+	int check;
+
+	find_end = s->li_end->connect;
+	check = s->li_end->check;
+	while (find_end->content != s->li_start)
+	{
+		if (check == find_end->check + 1)
+		{
+			new = ft_lstnew(find_end->content, 0);
+			new = (void*)find_end->content;
+			ft_lstadd(&s->shortest, new);
+			find = find->connect;
+			check--;
+		}
+		else
+			find_end = find_end->next;
+	}
+}
+
+void create_queue(t_s *s)
 {
 	t_list *queue_head;
 	t_list *queue_tail;
@@ -183,12 +205,6 @@ void try_add(t_s *s)
 		conn = ((t_li*)queue_head->content)->connect;
 		while (conn != NULL)
 		{
-			// printf("\n\nok in second while in try_add\n\n");
-			// while (conn != NULL)
-			// {
-			// 	printf("\nconn and check in try_add>>>%d\n", ((t_li*)conn->content)->check);
-			// 	conn = conn->next;
-			// }
 			if (((t_li*)conn->content)->check == 0)
 			{
 				printf("\n\nok in first if in try_add\n\n");
@@ -211,8 +227,52 @@ void try_add(t_s *s)
 		printf("\nname of room>>>%s\ncheck>>>%d\n", print_head->name, print_head->check);
 		print_head = print_head->next;
 	}
+	printf("\n\n\n\n\n");
 }
 
+int find_best_way(t_s *s, t_list *find)
+{
+	t_list *new;
+
+	while (find != NULL)
+	{
+		if (find->content == s->li_end)
+		{
+			new = ft_lstnew(find->content, 0);
+			new = (void*)s->li_end;
+			ft_lstadd(&s->shortest, new);
+			return (1);
+		}
+		else if	(find_best_way(s, ((t_li*)find->content)->connect) == 1)
+		{
+			new = ft_lstnew(find->content, 0);
+			new = (void*)find->content;
+			ft_lstadd(&s->shortest, new);
+		}
+		find = find->next;
+	}
+	t_li *check;
+
+	check = shortest;
+	while (check != NULL)
+	{
+		printf("\nname of check room>>>%s\ncheck of check%d\n", check->name, check->check);
+		check = check->next;
+	}
+}
+
+
+// create a new list, which contain rooms, which have paths to end.
+ // if some of rooms have not point on next room or have not point to end - this rooms i need to exclude from list
+// then i need to move from start to end and write to new list every room, except that rooms, which i excluded in previous func.
+
+
+
+// L1-2
+// L1-3 L2-2
+// L1-1 L2-3 L3-2
+// L2-1 L3-3
+// L3-1
 
 // interrupt "exit"
 
@@ -220,6 +280,7 @@ void try_add(t_s *s)
 // 1. in Makefile exclude flag "g"
 // 2. lldb and gdb its debagers
 // 3. breakpoint and name of func
+
 // Причины сегментации
 // Наиболее распространенные причины ошибки сегментации:
 // Разыменование нулевых указателей 
