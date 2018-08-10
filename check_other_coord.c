@@ -171,23 +171,74 @@ void from_end(t_s *s)
 {
 	t_list *find_end;
 	int check;
+	t_list *new;
 
 	find_end = s->li_end->connect;
 	check = s->li_end->check;
-	while (find_end->content != s->li_start)
+	s->shortest = ft_lstnew(NULL, 0);
+	s->shortest->content = s->li_end;
+	while (find_end != NULL)
 	{
-		if (check == find_end->check + 1)
+		if (check == ((t_li*)find_end->content)->check + 1)
 		{
 			new = ft_lstnew(find_end->content, 0);
-			new = (void*)find_end->content;
+			new->content = find_end->content;
 			ft_lstadd(&s->shortest, new);
-			find = find->connect;
+			find_end = ((t_li*)find_end->content)->connect;
 			check--;
+			if (check == 2)
+				break;
 		}
 		else
 			find_end = find_end->next;
 	}
+	t_list *sho;
+
+	sho = s->shortest;
+	while (sho != NULL)
+	{
+		printf("\nname of shortest>>>%s\n", ((t_li*)sho->content)->name);
+		sho = sho->next;
+	}
 }
+
+
+// `new = (void*)find_end->content;` change it to `new->content = find_end->content;`
+
+// void from_end(t_s *s)
+// {
+//    t_list *find_end;
+//    int check;
+//    t_list *new; 
+
+// find_end = s->li_end->connect;
+//    check = s->li_end->check;
+//    s->shortest = ft_lstnew(NULL, 0);
+//    s->shortest->content = s->li_end;
+//    while (find_end != NULL)
+//    {
+//        if (check == ((t_li*)find_end->content)->check + 1)
+//        {
+//            new = ft_lstnew(find_end->content, 0);
+//            new = (void*)find_end->content;
+//            ft_lstadd(&s->shortest, new);
+//            find_end = ((t_li*)find_end->content)->connect;
+//            check--;
+//         if (check == 2)
+//         break;
+//        }
+//        else
+//            find_end = find_end->next;
+//    }
+// }
+
+// find_end = s->shortest; 
+// - find_end =  ((t_li*)find_end->content)->connect;
+// s->shortest = ft_lstnew(NULL, 0); 
+// after this line add `s->shortest->content = s->li_end;`
+// check--; 
+// after this line add if (check == 2) break;
+
 
 void create_queue(t_s *s)
 {
@@ -230,36 +281,36 @@ void create_queue(t_s *s)
 	printf("\n\n\n\n\n");
 }
 
-int find_best_way(t_s *s, t_list *find)
-{
-	t_list *new;
+// int find_best_way(t_s *s, t_list *find)
+// {
+// 	t_list *new;
 
-	while (find != NULL)
-	{
-		if (find->content == s->li_end)
-		{
-			new = ft_lstnew(find->content, 0);
-			new = (void*)s->li_end;
-			ft_lstadd(&s->shortest, new);
-			return (1);
-		}
-		else if	(find_best_way(s, ((t_li*)find->content)->connect) == 1)
-		{
-			new = ft_lstnew(find->content, 0);
-			new = (void*)find->content;
-			ft_lstadd(&s->shortest, new);
-		}
-		find = find->next;
-	}
-	t_li *check;
+// 	while (find != NULL)
+// 	{
+// 		if (find->content == s->li_end)
+// 		{
+// 			new = ft_lstnew(find->content, 0);
+// 			new = (void*)s->li_end;
+// 			ft_lstadd(&s->shortest, new);
+// 			return (1);
+// 		}
+// 		else if	(find_best_way(s, ((t_li*)find->content)->connect) == 1)
+// 		{
+// 			new = ft_lstnew(find->content, 0);
+// 			new = (void*)find->content;
+// 			ft_lstadd(&s->shortest, new);
+// 		}
+// 		find = find->next;
+// 	}
+// 	t_li *check;
 
-	check = shortest;
-	while (check != NULL)
-	{
-		printf("\nname of check room>>>%s\ncheck of check%d\n", check->name, check->check);
-		check = check->next;
-	}
-}
+// 	check = shortest;
+// 	while (check != NULL)
+// 	{
+// 		printf("\nname of check room>>>%s\ncheck of check%d\n", check->name, check->check);
+// 		check = check->next;
+// 	}
+// }
 
 
 // create a new list, which contain rooms, which have paths to end.

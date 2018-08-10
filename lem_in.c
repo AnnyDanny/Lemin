@@ -115,13 +115,19 @@ int check_right(t_s *s, char *buff)
 	int i;
 
 	i = 0;
+	printf("\nbuff in check right>>>%s\n", buff);
 	while (buff[i])
 	{
 		if (check_digits_in_str(buff) == 1 && check_comment(buff) == 0)
 		{
+			printf("\nokokokokkook111\n");
 			s->number_of_ants = ft_atoi(buff);
+			printf("\nokokokokkook222\n");
 			if (s->number_of_ants < 0)
+			{
+				printf("\nokokokokkook333\n");
 				return (0);
+			}
 			printf("\nants>>>%d\n", s->number_of_ants);
 			return (1);
 		}
@@ -148,15 +154,19 @@ int check_first(int fd, t_s *s, char *buff)
 	i = 0;
 	while (get_next_line(fd, &buff) > 0)
 	{
-		// printf("\nbuff in first>>>%s\n", buff);
 		if (check_start_end(buff) != 0)
 		{
 			printf("\nERROR1\n");
 			return (1);
 		}
-		if (check_right(s, buff) == 1)
+		else if (check_right(s, buff) == 1)
 		{
 			break;
+		}
+		else
+		{
+			printf("\nERROR1\n");
+			return (1);
 		}
 	}
 	return (0);
@@ -271,8 +281,9 @@ int check_second(int fd, t_s *s, char *buff)
 	t_list *find;
 
 	find = s->li_start->connect;
-	create_queue(s, find);
-	find_best_way(s);
+	create_queue(s);
+	from_end(s);
+	// find_best_way(s);
 	// print_list(s);
 	// print_start_end(s);
 	return (0);

@@ -90,7 +90,8 @@ int check_two_hashes(char *buff);
 int check_connect(t_s *s, char *buff);
 void error_exit(char const *str);
 void create_queue(t_s *s);
-void find_best_way(t_s *s);
+// void find_best_way(t_s *s);
+void from_end(t_s *s);
 
 #endif
 
