@@ -26,7 +26,7 @@ void		cle_s(t_s *s)
 	s->spaces_start = 0;
 	s->spaces_end = 0;
 	s->spaces_other = 0;
-	s->dash = 0;
+	s->hyphen = 0;
 	s->start_x = 0;
 	s->start_y = 0;
 	s->number_of_room_end = NULL;

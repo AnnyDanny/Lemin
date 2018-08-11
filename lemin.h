@@ -46,7 +46,7 @@ typedef struct	s_s
 	int spaces_start;
 	int spaces_end;
 	int spaces_other;
-	int dash;
+	int hyphen;
 	int start_x;
 	int start_y;
 	char **m;
@@ -71,7 +71,7 @@ typedef struct	s_s
 void		cle_s(t_s *s);
 void cle_m_dash(t_s *s);
 void cle_m(t_s *s);
-int get_start_coord(t_s *s, int fd, char *buff);
+void get_start_coord(t_s *s, int fd, char *buff);
 int check_digits_coord(t_s *s);
 int check_valid_start_y(t_s *s);
 int check_valid_start_x(t_s *s);
@@ -80,18 +80,19 @@ int check_first_pos_room(char c);
 int check_digits_in_str(char *buff);
 int check_count_spaces_start(t_s *s, char *buff);
 int check_count_spaces_end(t_s *s, char *buff);
-int get_end_coord(t_s *s, int fd, char *buff);
+void get_end_coord(t_s *s, int fd, char *buff);
 t_li *li_new(char *number_of_room, int coord_x, int coord_y);
 void	ft_li_add(t_li **alst, t_li *new);
 int check_comment(char *buff);
 int check_first_pos_room(char c);
-int check_other_coords(t_s *s, char *buff);
+void check_other_coords(t_s *s, char *buff);
 int check_two_hashes(char *buff);
 int check_connect(t_s *s, char *buff);
 void error_exit(char const *str);
 void create_queue(t_s *s);
 // void find_best_way(t_s *s);
 void from_end(t_s *s);
+int check_start_end(char *buff);
 
 #endif
 

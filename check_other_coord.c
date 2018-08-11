@@ -17,63 +17,57 @@
 
 int check_valid_other_room(t_s *s)
 {
-	int i;
-
-	i = 0;
-	if ((ft_isdigit(s->m[0][i]) == 1 && s->m[0] != NULL && check_first_pos_room(s->m[0][0]) == 1) ||
-		(ft_isalpha(s->m[0][i]) == 1 && s->m[0] != NULL && check_first_pos_room(s->m[0][0]) == 1))
-	{
+	if (s->m[0] != NULL && s->m[0][0] != 'L')
 		return (1);
-	}
-	else
-		return (0);
 	return (0);
 }
 
 int check_valid_other_x(t_s *s)
 {
-	if (check_digits_in_str(s->m[1]) == 1 && s->m[1] != NULL)
+	if (s->m[1] != NULL && check_digits_in_str(s->m[1]) == 1)
 	{
 		s->other_x = ft_atoi(s->m[1]);
+		if (s->other_x < 0)
+			return (0);
 		return (1);
 	}
-	else
-		return (0);
 	return (0);
 }
 
 int check_valid_other_y(t_s *s)
 {
-	if (check_digits_in_str(s->m[2]) == 1 && s->m[2] != NULL)
+	if (s->m[2] != NULL && check_digits_in_str(s->m[2]) == 1)
 	{
 		s->other_y = ft_atoi(s->m[2]);
+		if (s->other_y < 0)
+			return (0);
 		return (1);
 	}
-	else
-		return (0);
 	return (0);
 }
 
-int check_digits_coord_other(t_s *s)
+int exist_dublicate(t_s *s)
 {
-	t_li *li3;
+	t_li *check;
 
-	if (check_valid_other_room(s) == 1 && check_valid_other_x(s) == 1 && check_valid_other_y(s) == 1)
+	check = s->li;
+	while (check != NULL)
 	{
-		// if (s->head == NULL)
-		// {
-		// 	s->head = li_new(s->m[0], s->other_x, s->other_y);
-		// }
-		// else
-		{
-			ft_li_add(&(s->li), li_new(s->m[0], s->other_x, s->other_y));
-		}
-		li3 = s->li;
-		return (1);
+		if (ft_strequ(check->name, s->m[0]) == 1)
+			return (0);
+		if (check->c_x == s->other_x && check->c_y == s->other_y)
+			return (0);
+		check = check->next;
 	}
+	return (1);
+}
+
+void check_digits_coord_other(t_s *s)
+{
+	if (check_valid_other_room(s) == 1 && check_valid_other_x(s) == 1 && check_valid_other_y(s) == 1 && exist_dublicate(s) == 1)
+		ft_li_add(&(s->li), li_new(s->m[0], s->other_x, s->other_y));
 	else
-		return (0);
-	return (0);
+		error_exit("error in check_digits_coord_other");
 }
 
 t_li *find_room_if_exist(t_s *s, char *str)
@@ -96,13 +90,11 @@ void check_equal_elem(t_s *s)
 	t_li *second;
 	t_list *buff;
 
-	// printf("\nwhat is m_connect[0]>>>%s\n", s->m_connect[0]);
 	first = find_room_if_exist(s, s->m_connect[0]);
 	if (first == NULL)
 	{
 		error_exit("first connect");
 	}
-	// printf("\nwhat is m_connect[1]>>>%s\n", s->m_connect[1]);
 	second = find_room_if_exist(s, s->m_connect[1]);
 	if (second == NULL)
 	{
@@ -125,9 +117,7 @@ int check_count_spaces_other(t_s *s, char *buff)
 	while (buff[i])
 	{
 		if (buff[i] == ' ')
-		{
 			s->spaces_other++;
-		}
 		i++;
 	}
 	if (s->spaces_other == 2)
@@ -135,34 +125,32 @@ int check_count_spaces_other(t_s *s, char *buff)
 	return (0);
 }
 
-int check_other_coords(t_s *s, char *buff)
+void check_other_coords(t_s *s, char *buff)
 {
-		if (check_count_spaces_other(s, buff) == 1 && check_comment(buff) == 0)
-		{
-			s->m = ft_strsplit(buff, ' ');
-			if (check_digits_coord_other(s) == 1)
-				return (1);
-			else
-				return (0);
-		}
-	return (0);
+	if (check_count_spaces_other(s, buff) == 1)
+	{
+		s->m = ft_strsplit(buff, ' ');
+		check_digits_coord_other(s);
+	}
+	else
+		error_exit("error on check_other_coords");
 }
 
-int check_count_dash(t_s *s, char *buff)
+int check_count_hyphen(t_s *s, char *buff)
 {
 	int i;
 
 	i = 0;
-	s->dash = 0;
+	s->hyphen = 0;
 	while (buff[i])
 	{
 		if (buff[i] == '-')
 		{
-			s->dash++;
+			s->hyphen++;
 		}
 		i++;
 	}
-	if (s->dash == 1)
+	if (s->hyphen == 1)
 		return (1);
 	return (0);
 }
@@ -278,7 +266,8 @@ void create_queue(t_s *s)
 		printf("\nname of room>>>%s\ncheck>>>%d\n", print_head->name, print_head->check);
 		print_head = print_head->next;
 	}
-	printf("\n\n\n\n\n");
+	if (s->li_end->check == 0)
+		error_exit("there are no any paths");
 }
 
 // int find_best_way(t_s *s, t_list *find)
@@ -392,19 +381,14 @@ void create_queue(t_s *s)
 
 int check_connect(t_s *s, char *buff)
 {
-	if (check_count_dash(s, buff) == 1 && check_comment(buff) == 0)
+	if (check_count_hyphen(s, buff) == 1)
 	{
 		s->m_connect = ft_strsplit(buff, '-');
 		if (s->m_connect[0] != NULL && s->m_connect[1] != NULL)
 		{
 			check_equal_elem(s);
+			return (1);
 		}
-		else
-			error_exit("null in m_connect");
-	}
-	else
-	{
-		return (0);
 	}
 	return (0);
 }

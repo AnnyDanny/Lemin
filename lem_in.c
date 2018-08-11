@@ -120,14 +120,9 @@ int check_right(t_s *s, char *buff)
 	{
 		if (check_digits_in_str(buff) == 1 && check_comment(buff) == 0)
 		{
-			printf("\nokokokokkook111\n");
 			s->number_of_ants = ft_atoi(buff);
-			printf("\nokokokokkook222\n");
 			if (s->number_of_ants < 0)
-			{
-				printf("\nokokokokkook333\n");
 				return (0);
-			}
 			printf("\nants>>>%d\n", s->number_of_ants);
 			return (1);
 		}
@@ -246,47 +241,40 @@ void print_start_end(t_s *s)
 	}
 }
 
-int check_second(int fd, t_s *s, char *buff)
+void check_second(int fd, t_s *s, char *buff)
 {
 	while (get_next_line(fd, &buff) > 0)
 	{
-		if (check_other_coords(s, buff) == 0)
+		if (check_start_end(buff) == 1)
+			get_start_coord(s, fd, buff);
+		else if (check_start_end(buff) == 2)
+			get_end_coord(s, fd, buff);
+		else if (buff[0] != '#' && ft_strchr(buff, '-') != NULL)
 		{
 			if (check_connect(s, buff) == 0)
-			{
-				if (check_start_end(buff) == 1)
-				{
-					if (get_start_coord(s, fd, buff) == 0)
-					{
-						printf("\nERROR3\n");
-						return (1);
-					}
-					else 
-						s->s++;
-				}
-				else if (check_start_end(buff) == 2)
-				{
-					if (get_end_coord(s, fd, buff) == 0)
-					{
-						printf("\nERROR4\n");
-						return (1);
-					}
-					else
-						s->e++;
-				}
-			}
+				error_exit("error in check_connect 1");
+			break;
 		}
-		printf("\nbuff in second>>>%s\n", buff);
+		else if (buff[0] != '#')
+			check_other_coords(s, buff);
 	}
-	t_list *find;
+	if (s->li_start == NULL && s->li_end == NULL)
+		error_exit("error in start end == NULL");
+}
 
-	find = s->li_start->connect;
-	create_queue(s);
-	from_end(s);
-	// find_best_way(s);
-	// print_list(s);
-	// print_start_end(s);
-	return (0);
+void check_third(int fd, t_s *s, char *buff)
+{
+	printf("\nbuff in check_third>>>%s\n", buff);
+	while (get_next_line(fd, &buff) > 0)
+	{
+		if (check_start_end(buff) == 1 || check_start_end(buff) == 2)
+			error_exit("error in check_third 1");
+		else if (buff[0] != '#')
+		{
+			if (check_connect(s, buff) == 0)
+				error_exit("error in check_connect 2");
+		}
+	}
 }
 
 int main(void)
@@ -303,8 +291,10 @@ int main(void)
 	fd = open("tat", O_RDWR | O_APPEND);
 	if (check_first(fd, &s, buff) == 1)
 		return (0);
-	if (check_second(fd, &s, buff) == 1)
-		return (0);
+	check_second(fd, &s, buff);
+	check_third(fd, &s, buff);
 	ft_strdel(&buff);
+	create_queue(&s);
+	from_end(&s);
 }
 
