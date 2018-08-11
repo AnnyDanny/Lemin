@@ -296,5 +296,6 @@ int main(void)
 	ft_strdel(&buff);
 	create_queue(&s);
 	from_end(&s);
+	go_ants(&s);
 }
 

@@ -93,6 +93,7 @@ void create_queue(t_s *s);
 // void find_best_way(t_s *s);
 void from_end(t_s *s);
 int check_start_end(char *buff);
+void go_ants(t_s *s);
 
 #endif
 
