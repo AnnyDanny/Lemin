@@ -18,10 +18,7 @@ void		cle_s(t_s *s)
 	s->number_of_room_start = NULL;
 	s->comment = 0;
 	s->two_hash = 0;
-	s->s = 0;
-	s->e = 0;
 	s->check_number = NULL;
-	s->i = 0;
 	s->check = 0;
 	s->spaces_start = 0;
 	s->spaces_end = 0;
@@ -39,34 +36,17 @@ void		cle_s(t_s *s)
 	s->li_queue_head = NULL;
 	s->li_start = NULL;
 	s->li_end = NULL;
-	s->head = NULL;
 	s->connect = NULL;
-	// s->fi = NULL;
-	// s->se = NULL;
 }
 
-void cle_m(t_s *s)
+void		cle_m(t_s *s)
 {
 	int i;
-	// int j;
 
 	i = 0;
-	// j = 0;
 	while (s->m[i])
 	{
 		s->m[i] = NULL;
 		i++;
 	}
 }
-
-// void cle_m_dash(t_s *s)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (s->m_connect[i])
-// 	{
-// 		s->m_connect[i] == NULL;
-// 		i++;
-// 	}
-// }
