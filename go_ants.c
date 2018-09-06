@@ -38,6 +38,7 @@ void			go_ants(t_s *s)
 	t_list			*ants;
 	t_list			*tmp;
 	int				current_ants;
+	t_list *shor;
 
 	current_ants = 1;
 	ants = s->shortest;
@@ -50,5 +51,12 @@ void			go_ants(t_s *s)
 			func(ants, 0);
 		current_ants++;
 		ft_printf("\n");
+	}
+	while (s->shortest != NULL)
+	{
+		shor = s->shortest->next;
+		ft_strdel((void*)s->shortest->content);
+		free(s->shortest);
+		s->shortest = shor;
 	}
 }

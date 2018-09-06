@@ -16,7 +16,9 @@
 int				check_valid_other_room(t_s *s)
 {
 	if (s->m[0] != NULL && s->m[0][0] != 'L')
+	{
 		return (1);
+	}
 	return (0);
 }
 
@@ -52,8 +54,6 @@ int				exist_dublicate(t_s *s)
 	while (check != NULL)
 	{
 		if (ft_strequ(check->name, s->m[0]) == 1)
-			return (0);
-		if (check->c_x == s->other_x && check->c_y == s->other_y)
 			return (0);
 		check = check->next;
 	}

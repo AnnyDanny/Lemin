@@ -53,7 +53,15 @@ void			get_end_coord(t_s *s, char *buff)
 			s->m = ft_strsplit(buff, ' ');
 			check_digits_coord_end(s);
 			ft_strdel(&buff);
+			ft_strdel(&s->m[0]);
+			ft_strdel(&s->m[1]);
+			ft_strdel(&s->m[2]);
+			free(s->m);
 			return ;
 		}
 	}
+	// ft_strdel(&s->m[0]);
+	// ft_strdel(&s->m[1]);
+	// ft_strdel(&s->m[2]);
+	// free(s->m);
 }
