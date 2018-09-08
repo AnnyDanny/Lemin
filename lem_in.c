@@ -22,6 +22,11 @@ int				check_first(t_s *s, char *buff)
 			error_exit("First line is not a number of ants");
 			return (1);
 		}
+		else if (check_comment(buff) == 1)
+		{
+			ft_strdel(&buff);
+			continue ;
+		}
 		else if (check_right(s, buff) == 1)
 			break ;
 		else
@@ -38,17 +43,30 @@ void			check_second(t_s *s, char *buff)
 	while (get_next_line(0, &buff) > 0)
 	{
 		if (check_start_end(buff) == 1)
+		{
+			if (s->start == 1)
+				error_exit("double start");
 			get_start_coord(s, buff);
+			s->start = 1;
+		}
 		else if (check_start_end(buff) == 2)
+		{
+			if (s->end == 1)
+				error_exit("double end");
 			get_end_coord(s, buff);
+			s->end = 1;
+		}
 		else if (buff[0] != '#' && ft_strchr(buff, '-') != NULL)
 		{
 			if (check_connect(s, buff) == 0)
+			{
 				error_exit("Some errors with connections");
+			}
 			else
 			{
 				ft_strdel(&s->m_connect[0]);
 				ft_strdel(&s->m_connect[1]);
+				ft_strdel(&buff);
 			}
 			break ;
 		}
@@ -56,10 +74,7 @@ void			check_second(t_s *s, char *buff)
 			check_other_coords(s, buff);
 	}
 	if (s->li_start == NULL || s->li_end == NULL)
-	{
 		error_exit("error in start end == NULL");
-	}
-	ft_strdel(&buff);
 }
 
 void			check_third(t_s *s, char *buff)
@@ -81,6 +96,17 @@ void			check_third(t_s *s, char *buff)
 	ft_strdel(&buff);
 }
 
+int additional_verification(t_s *s)
+{
+	if (s->li->connect == NULL)
+		return (1);
+	if (s->li_start->connect == NULL)
+		return (1);
+	if (s->li_end->connect == NULL)
+		return (1);
+	return (0);
+}
+
 int				main(void)
 {
 	t_s			s;
@@ -94,6 +120,8 @@ int				main(void)
 		return (0);
 	check_second(&s, buff);
 	check_third(&s, buff);
+	if (additional_verification(&s) == 1)
+		error_exit("connects are no exist");
 	create_queue(&s);
 	from_end(&s);
 	go_ants(&s);
@@ -145,7 +173,7 @@ int				main(void)
 // d 3 2
 // w 6 5
 // e 7 3
-// yyy 6 5
+// yyy 5 5
 // iii 9 8
 // a-b
 // b-c

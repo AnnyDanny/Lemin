@@ -22,7 +22,7 @@ void			check_digits_coord_end(t_s *s)
 		s->li_end = s->li;
 	}
 	else
-		error_exit("111");
+		error_exit("wrongs with coords");
 }
 
 int				check_count_spaces_end(t_s *s, char *buff)
@@ -51,17 +51,20 @@ void			get_end_coord(t_s *s, char *buff)
 		if (buff[0] != '#' && check_count_spaces_end(s, buff) == 1)
 		{
 			s->m = ft_strsplit(buff, ' ');
-			check_digits_coord_end(s);
 			ft_strdel(&buff);
+			check_digits_coord_end(s);
 			ft_strdel(&s->m[0]);
 			ft_strdel(&s->m[1]);
 			ft_strdel(&s->m[2]);
 			free(s->m);
 			return ;
 		}
+		if (buff[0] == '#')
+			ft_strdel(&buff);
+		else
+		{
+			ft_strdel(&buff);
+			error_exit("no correct datas of start or end");
+		}
 	}
-	// ft_strdel(&s->m[0]);
-	// ft_strdel(&s->m[1]);
-	// ft_strdel(&s->m[2]);
-	// free(s->m);
 }

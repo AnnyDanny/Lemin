@@ -37,6 +37,8 @@ void		cle_s(t_s *s)
 	s->li_start = NULL;
 	s->li_end = NULL;
 	s->connect = NULL;
+	s->start = 0;
+	s->end = 0;
 }
 
 void		cle_m(t_s *s)

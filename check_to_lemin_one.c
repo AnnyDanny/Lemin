@@ -65,6 +65,14 @@ int				check_digits_in_str(char *buff)
 	return (1);
 }
 
+int check_plus(char *buff)
+{
+	if (buff[0] == '+')
+		return (1);
+	else
+		return (0);
+}
+
 int				check_right(t_s *s, char *buff)
 {
 	int i;
@@ -72,11 +80,12 @@ int				check_right(t_s *s, char *buff)
 	i = 0;
 	while (buff[i])
 	{
-		if (check_digits_in_str(buff) == 1 && check_comment(buff) == 0)
+		if ((check_digits_in_str(buff) == 1 && check_comment(buff) == 0)
+			|| check_plus(buff) == 1 || check_plus(buff) == 0)
 		{
 			s->number_of_ants = ft_atoi(buff);
 			ft_strdel(&buff);
-			if (s->number_of_ants < 0)
+			if (s->number_of_ants <= 0)
 				return (0);
 			return (1);
 		}

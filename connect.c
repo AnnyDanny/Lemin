@@ -61,7 +61,9 @@ int				check_count_hyphen(t_s *s, char *buff)
 		i++;
 	}
 	if (s->hyphen == 1)
+	{
 		return (1);
+	}
 	return (0);
 }
 
@@ -82,10 +84,6 @@ int				check_connect(t_s *s, char *buff)
 			return (1);
 		}
 	}
-	// ft_strdel(&s->m_connect[0]);
-	// ft_strdel(&s->m_connect[1]);
-	// ft_strdel(&s->m_connect[2]);
-	// free(s->m_connect);
 	return (0);
 }
 

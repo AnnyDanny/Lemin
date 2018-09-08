@@ -22,6 +22,8 @@ int				check_digits_coord(t_s *s)
 		s->li_start = s->li;
 		return (1);
 	}
+	else
+		error_exit("wrongs with coords");
 	return (0);
 }
 
@@ -59,9 +61,12 @@ void			get_start_coord(t_s *s, char *buff)
 			free(s->m);
 			return ;
 		}
+		if (buff[0] == '#')
+			ft_strdel(&buff);
+		else
+		{
+			ft_strdel(&buff);
+			error_exit("no correct datas of start or end");
+		}
 	}
-	// ft_strdel(&s->m[0]);
-	// ft_strdel(&s->m[1]);
-	// free(s->m[2]);
-	// free(s->m);
 }

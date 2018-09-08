@@ -58,6 +58,8 @@ typedef struct		s_s
 	t_list			*shortest;
 	t_list			*queue_tail;
 	t_list			*buff;
+	int start;
+	int end;
 }					t_s;
 
 void				cle_s(t_s *s);
