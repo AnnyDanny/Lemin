@@ -65,14 +65,6 @@ int				check_digits_in_str(char *buff)
 	return (1);
 }
 
-int check_plus(char *buff)
-{
-	if (buff[0] == '+')
-		return (1);
-	else
-		return (0);
-}
-
 int				check_right(t_s *s, char *buff)
 {
 	int i;

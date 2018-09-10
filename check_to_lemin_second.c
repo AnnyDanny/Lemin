@@ -56,3 +56,11 @@ int				check_start_end(char *buff)
 		return (2);
 	return (0);
 }
+
+int check_plus(char *buff)
+{
+	if (buff[0] == '+')
+		return (1);
+	else
+		return (0);
+}

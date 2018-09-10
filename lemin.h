@@ -58,8 +58,9 @@ typedef struct		s_s
 	t_list			*shortest;
 	t_list			*queue_tail;
 	t_list			*buff;
-	int start;
-	int end;
+	t_list			*q;
+	int				start;
+	int				end;
 }					t_s;
 
 void				cle_s(t_s *s);
@@ -94,5 +95,10 @@ int					check_valid_start_y(t_s *s);
 void				check_digits_coord_other(t_s *s);
 int					check_valid_end_room(t_s *s);
 int					check_valid_end_y(t_s *s);
+void free_m_connect(t_s *s);
+void check_null_st_en(t_s *s);
+void check_double_start(t_s *s, char *buff);
+void check_double_end(t_s *s, char *buff);
+int check_plus(char *buff);
 
 #endif

@@ -13,33 +13,6 @@
 #include "lemin.h"
 #include "libft/includes/libft.h"
 
-// void print_list(t_s *s)
-// {
-// 	t_li *head1;
-// 	// t_list *head2;
-
-// 	head1 = s->li_end;
-// 	// head2 = s->shortest;
-// 	while (head1 != NULL)
-// 	{
-// 		ft_printf("\nname of end room>>>%s\n", head1->name);
-// 		ft_printf("\ncheck from end room>>>%d\n", head1->check);
-// 		t_list *con1;
-// 		con1 = head1->connect;
-// 		while (con1)
-// 		{
-// 			ft_printf("\nconnect of end room>>>%s\n", ((t_li*)con1->content)->name);
-// 			con1 = con1->next;
-// 		}
-// 		head1 = head1->next;
-// 	}
-// 	// while (head2 != NULL)
-// 	// {
-// 		ft_printf("\ncontent in shortest>>>%s\n", s->shortest->content);
-// 	// 	head2 = head2->next;
-// 	// }
-// }
-
 void			from_end(t_s *s)
 {
 	t_list		*find_end;
@@ -67,25 +40,36 @@ void			from_end(t_s *s)
 	}
 }
 
+void free_q(t_s *s)
+{
+	t_list *tmp;
+	
+	free(s->queue_tail);
+	while (s->q != NULL)
+	{
+		tmp = s->q->next;
+		free(s->q->content);
+		free(s->q);
+		s->q = tmp;
+	}
+}
 
 void			create_queue(t_s *s)
 {
-	t_list *q;
 	t_list *conn;
-	t_list *tmp;
 
-	q = ft_lstnew(NULL, 0);
-	q->content = s->li_start;
-	s->queue_tail = q;
+	s->q = ft_lstnew(NULL, 0);
+	s->q->content = s->li_start;
+	s->queue_tail = s->q;
 	s->li_start->check = 1;
-	while (q != NULL)
+	while (s->q != NULL)
 	{
-		conn = ((t_li*)q->content)->connect;
+		conn = ((t_li*)s->q->content)->connect;
 		while (conn != NULL)
 		{
 			if (((t_li*)conn->content)->check == 0)
 			{
-				((t_li *)conn->content)->check = ((t_li*)q->content)->check + 1;
+				((t_li *)conn->content)->check = ((t_li*)s->q->content)->check + 1;
 				s->buff = ft_lstnew(NULL, 0);
 				s->buff->content = conn->content;
 				s->queue_tail->next = s->buff;
@@ -93,14 +77,23 @@ void			create_queue(t_s *s)
 			}
 			conn = conn->next;
 		}
-		q = q->next;
+		s->q = s->q->next;
 	}
-	free(s->queue_tail);
-	while (q != NULL)
+	t_li *head1;
+	// t_li *h;
+
+	head1 = s->li;
+	while (head1 != NULL)
 	{
-		tmp = q->next;
-		free(q->content);
-		free(q);
-		q = tmp;
+		ft_printf("\nname>>>%s\n", head1->name);
+		t_list *c;
+		c = head1->connect;
+		while (c)
+		{
+			ft_printf("\ncheck>>>%d\n", head1->check);
+			c = c->next;
+		}
+		head1 = head1->next;
 	}
+	free_q(s);
 }

@@ -43,11 +43,9 @@ int				check_valid_start_room(t_s *s)
 
 int				check_valid_start_x(t_s *s)
 {
-	// if (check_digits_in_str(s->m[1]) == 1 && s->m[1] != NULL)
 	if (s->m[1] != NULL)
 	{
 		s->start_x = ft_atoi(s->m[1]);
-		// if (s->start_x < 0)
 		if (check_int_start(s) == 0)
 			return (0);
 		return (1);
@@ -57,12 +55,10 @@ int				check_valid_start_x(t_s *s)
 
 int				check_valid_start_y(t_s *s)
 {
-	// if (check_digits_in_str(s->m[2]) == 1 && s->m[2] != NULL)
 	if (s->m[2] != NULL)
 	{
 		s->start_y = ft_atoi(s->m[2]);
 		if (check_int_start(s) == 0)
-		// if (s->start_y < 0)
 			return (0);
 		return (1);
 	}

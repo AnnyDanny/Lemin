@@ -43,29 +43,16 @@ void			check_second(t_s *s, char *buff)
 	while (get_next_line(0, &buff) > 0)
 	{
 		if (check_start_end(buff) == 1)
-		{
-			if (s->start == 1)
-				error_exit("double start");
-			get_start_coord(s, buff);
-			s->start = 1;
-		}
+			check_double_start(s, buff);
 		else if (check_start_end(buff) == 2)
-		{
-			if (s->end == 1)
-				error_exit("double end");
-			get_end_coord(s, buff);
-			s->end = 1;
-		}
+			check_double_end(s, buff);
 		else if (buff[0] != '#' && ft_strchr(buff, '-') != NULL)
 		{
 			if (check_connect(s, buff) == 0)
-			{
 				error_exit("Some errors with connections");
-			}
 			else
 			{
-				ft_strdel(&s->m_connect[0]);
-				ft_strdel(&s->m_connect[1]);
+				free_m_connect(s);
 				ft_strdel(&buff);
 			}
 			break ;
@@ -73,8 +60,7 @@ void			check_second(t_s *s, char *buff)
 		else if (buff[0] != '#')
 			check_other_coords(s, buff);
 	}
-	if (s->li_start == NULL || s->li_end == NULL)
-		error_exit("error in start end == NULL");
+	check_null_st_en(s);
 }
 
 void			check_third(t_s *s, char *buff)
@@ -127,66 +113,3 @@ int				main(void)
 	go_ants(&s);
 	system("leaks lem-in");
 }
-// просто вводить в терминале и запустить программу, но для этого сначала скачать питон
-// export MallocStackLogging=YES
-
-// 10
-// ##start
-// 1 1 1
-// ##end
-// 9 2 2
-// 2 3 3
-// 3 5 5
-// 4 4 4
-// 5 6 6
-// 6 7 7
-// 7 8 8
-// 8 9 9
-// 10 10 10
-// 11 11 11
-// 11-4
-// 1-4
-// 1-3
-// 1-2
-// 2-6
-// 2-3
-// 3-4
-// 4-10
-// 10-8
-// 10-9
-// 3-8
-// 8-9
-// 2-8
-// 2-9
-// 2-5
-// 5-7
-// 7-9
-
-// 4
-// ##start
-// a 5 2
-// ##end
-// f 5 23
-// b 8 9
-// c 5 6
-// kkk 8 6
-// d 3 2
-// w 6 5
-// e 7 3
-// yyy 5 5
-// iii 9 8
-// a-b
-// b-c
-// c-kkk
-// kkk-d
-// b-d
-// c-b
-// c-d
-// d-c
-// d-e
-// d-w
-// w-e
-// e-d
-// e-f
-// e-yyy
-// yyy-iii
