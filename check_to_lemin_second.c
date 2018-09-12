@@ -15,7 +15,8 @@
 
 void			error_exit(char const *str)
 {
-	ft_printf("\nERROR >>> %s\n", str);
+	// ft_printf("\nERROR >>> %s\n", str);
+	ft_printf("%s\n", str);
 	exit(0);
 }
 

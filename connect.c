@@ -34,11 +34,15 @@ void			check_equal_elem(t_s *s)
 	t_list		*buff;
 
 	first = find_room_if_exist(s, s->m_connect[0]);
+	// ft_printf("\nfirst>>>%s\n", s->m_connect[0]);
 	if (first == NULL)
-		error_exit("Hyphen in names of room");
+		error_exit("ERROR");
+		// error_exit("Hyphen in names of room");
 	second = find_room_if_exist(s, s->m_connect[1]);
+	// ft_printf("\nsecond>>>%s\n", s->m_connect[0]);
 	if (second == NULL)
-		error_exit("Error in connections");
+		error_exit("ERROR");
+		// error_exit("Error in connections");
 	buff = ft_lstnew(NULL, 0);
 	buff->content = (void*)second;
 	ft_lstadd(&first->connect, buff);
@@ -68,9 +72,13 @@ int				check_count_hyphen(t_s *s, char *buff)
 
 int				check_connect(t_s *s, char *buff)
 {
-	if (s->li_start == NULL || s->li_end == NULL)
-		return (0);
-	if (check_count_hyphen(s, buff) == 1)
+	// ft_printf("\nname of start room in check_connect>>>%s\n", s->li_start->name);
+	// if (s->li_start == NULL || s->li_end == NULL)
+	// {
+	// 	ft_printf("\nhere some errors>>>\n");
+	// 	return (0);
+	// }
+	if (check_count_hyphen(s, buff) == 1 && check_count_spaces_other(s, buff) == 0)
 	{
 		s->m_connect = ft_strsplit(buff, '-');
 		if (s->m_connect[0] != NULL && s->m_connect[1] != NULL)

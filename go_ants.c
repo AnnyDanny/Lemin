@@ -29,8 +29,16 @@ void			func(t_list *ants, int current_ants)
 		return ;
 	func(ants->next, ants->content_size);
 	if (current_ants != 0)
-		ft_printf("L%d-%s ", current_ants, ((t_li*)ants->content)->name);
+		ft_printf("L%d-%s", current_ants, ((t_li*)ants->content)->name);
 	ants->content_size = current_ants;
+}
+
+void func_print(t_list *p)
+{
+	if (p == NULL)
+		return ;
+	func_print(p->next);
+	ft_printf("%s\n", p->content);
 }
 
 void			go_ants(t_s *s)
@@ -43,10 +51,14 @@ void			go_ants(t_s *s)
 	current_ants = 1;
 	ants = s->shortest;
 	tmp = get_end_room(s);
+	// func_print(s->print);
+	ft_printf("\n");
 	while (tmp->content_size != (size_t)s->number_of_ants)
 	{
 		if (current_ants <= s->number_of_ants)
+		{
 			func(ants, current_ants);
+		}
 		else
 			func(ants, 0);
 		current_ants++;

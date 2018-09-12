@@ -76,7 +76,7 @@ int				check_right(t_s *s, char *buff)
 			|| check_plus(buff) == 1 || check_plus(buff) == 0)
 		{
 			s->number_of_ants = ft_atoi(buff);
-			ft_strdel(&buff);
+			// ft_strdel(&buff);
 			if (s->number_of_ants <= 0)
 				return (0);
 			return (1);

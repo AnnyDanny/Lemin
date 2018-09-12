@@ -16,7 +16,6 @@ void		cle_s(t_s *s)
 {
 	s->number_of_ants = 0;
 	s->number_of_room_start = NULL;
-	s->comment = 0;
 	s->two_hash = 0;
 	s->check_number = NULL;
 	s->check = 0;
@@ -39,6 +38,7 @@ void		cle_s(t_s *s)
 	s->connect = NULL;
 	s->start = 0;
 	s->end = 0;
+	s->print = NULL;
 }
 
 void		cle_m(t_s *s)

@@ -79,21 +79,23 @@ void			create_queue(t_s *s)
 		}
 		s->q = s->q->next;
 	}
-	t_li *head1;
-	// t_li *h;
+	if (s->li_end->check == 0)
+		error_exit("ERROR");
+	// t_li *head1;
+	// // t_li *h;
 
-	head1 = s->li;
-	while (head1 != NULL)
-	{
-		ft_printf("\nname>>>%s\n", head1->name);
-		t_list *c;
-		c = head1->connect;
-		while (c)
-		{
-			ft_printf("\ncheck>>>%d\n", head1->check);
-			c = c->next;
-		}
-		head1 = head1->next;
-	}
+	// head1 = s->li;
+	// while (head1 != NULL)
+	// {
+	// 	ft_printf("\nname>>>%s\n", head1->name);
+	// 	t_list *c;
+	// 	c = head1->connect;
+	// 	while (c)
+	// 	{
+	// 		ft_printf("\ncheck>>>%d\n", head1->check);
+	// 		c = c->next;
+	// 	}
+	// 	head1 = head1->next;
+	// }
 	free_q(s);
 }

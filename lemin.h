@@ -30,7 +30,7 @@ typedef struct		s_s
 {
 	int				number_of_ants;
 	char			*number_of_room_start;
-	int				comment;
+	t_list			*print;
 	int				two_hash;
 	char			*check_number;
 	int				check;
@@ -75,6 +75,7 @@ int					check_first_pos_room(char c);
 int					check_digits_in_str(char *buff);
 int					check_count_spaces_start(t_s *s, char *buff);
 int					check_count_spaces_end(t_s *s, char *buff);
+int				check_count_spaces_other(t_s *s, char *buff);
 void				get_end_coord(t_s *s, char *buff);
 t_li				*li_new(char *number_of_room, int coord_x, int coord_y);
 void				ft_li_add(t_li **alst, t_li *new);
@@ -100,5 +101,7 @@ void check_null_st_en(t_s *s);
 void check_double_start(t_s *s, char *buff);
 void check_double_end(t_s *s, char *buff);
 int check_plus(char *buff);
+int				check_valid_other_room(t_s *s);
+void func_print(t_list *p);
 
 #endif

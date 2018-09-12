@@ -40,8 +40,9 @@ void			check_other_coords(t_s *s, char *buff)
 		ft_strdel(&s->m[1]);
 		ft_strdel(&s->m[2]);
 		free(s->m);
-		ft_strdel(&buff);
+		// ft_strdel(&buff);
 	}
 	else
-		error_exit("Error with validation in datas of room");
+		error_exit("ERROR");
+		// error_exit("Error with validation in datas of room");
 }

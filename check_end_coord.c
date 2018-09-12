@@ -22,7 +22,8 @@ void			check_digits_coord_end(t_s *s)
 		s->li_end = s->li;
 	}
 	else
-		error_exit("wrongs with coords");
+		error_exit("ERROR");
+		// error_exit("wrongs with coords");
 }
 
 int				check_count_spaces_end(t_s *s, char *buff)
@@ -43,15 +44,21 @@ int				check_count_spaces_end(t_s *s, char *buff)
 
 void			get_end_coord(t_s *s, char *buff)
 {
-	ft_strdel(&buff);
+	t_list *f;
+
+	// ft_strdel(&buff);
 	while (get_next_line(0, &buff) > 0)
 	{
+		f = ft_lstnew(NULL, 0);
+		f->content = buff;
+		ft_lstadd(&s->print, f);
 		if (check_start_end(buff) == 1 || check_start_end(buff) == 2)
-			error_exit("Not exist datas of start/end room or some other error");
+			error_exit("ERROR");
+			// error_exit("Not exist datas of start/end room or some other error");
 		if (buff[0] != '#' && check_count_spaces_end(s, buff) == 1)
 		{
 			s->m = ft_strsplit(buff, ' ');
-			ft_strdel(&buff);
+			// ft_strdel(&buff);
 			check_digits_coord_end(s);
 			ft_strdel(&s->m[0]);
 			ft_strdel(&s->m[1]);
@@ -59,12 +66,13 @@ void			get_end_coord(t_s *s, char *buff)
 			free(s->m);
 			return ;
 		}
-		if (buff[0] == '#')
-			ft_strdel(&buff);
+		// if (buff[0] == '#')
+		// 	ft_strdel(&buff);
 		else
 		{
-			ft_strdel(&buff);
-			error_exit("no correct datas of start or end");
+			// ft_strdel(&buff);
+			error_exit("ERROR");
+			// error_exit("no correct datas of start or end");
 		}
 	}
 }
